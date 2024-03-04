@@ -1,4 +1,4 @@
-# Task 04 - Technical work: auth refresh flow
+# Task 04 - Technical work: auth refresh flow
 
 > [!WARNING]
 > This section is **OPTIONAL** and you should tackle it only if you have the time and want to challenge how solid your solution for Part 1 was!
