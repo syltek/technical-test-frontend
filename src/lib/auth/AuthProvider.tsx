@@ -11,6 +11,11 @@ interface AuthProviderProps extends AuthInitializeConfig {
 function AuthProvider(props: AuthProviderProps): JSX.Element {
   const { tokens, onAuthChange, children } = props
 
+  // You can remove these 2 logs; these are only here so the linter does not
+  // complain about them being unused
+  console.debug('>>', 'AuthProvider', 'tokens', tokens)
+  console.debug('>>', 'AuthProvider', 'onAuthChange', onAuthChange)
+
   return (
     <>{children}</>
   )
