@@ -26,17 +26,24 @@ export function Matches(props: MatchesProps) {
   const [page, setPage] = useState<number>(0)
   const [size, setSize] = useState<number>(10)
   const fetcher = useApiFetcher()
-  const query = useSWR<Match[], Error>(
+  const query = useSWR<{ matches: Match[], total: number }, Error>(
     [page, size],
     async () => { 
       const res = await fetcher('GET /v1/matches', { page, size })
-      return res.ok
-        ? Promise.resolve(res.data)
-        : Promise.reject(new Error(res.data.message))
+
+      if (!res.ok) {
+        throw new Error(res.data.message)
+      }
+
+
+      const totalCount = res.headers.get('total')
+      const total = totalCount ? Number.parseInt(totalCount) : res.data.length
+      return { matches: res.data, total }
     },
     { keepPreviousData: true, suspense: true },
   )
-  const matches = query.data ?? []
+  const matches: Match[] = query.data?.matches ?? []
+  const total: number = query.data?.total ?? 0
 
   return (
     <Stack {...otherProps}>
@@ -88,7 +95,7 @@ export function Matches(props: MatchesProps) {
       </TableContainer>
       <TablePagination
         component="div"
-        count={100} // <- FIXME
+        count={total}
         page={page}
         rowsPerPage={size}
         onPageChange={(_, page) => { setPage(page) }}
