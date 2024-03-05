@@ -24,12 +24,14 @@ You can also run the project tests using this command:
 ```
 npm test
 ```
+> [!important]
+> Some tests will fail if you run them right after cloning the repo; but they **should** be green after you are done with [Task 01](./docs//task-01.md)
 
 Thats it! You are now ready to start with the [tasks](#tasks) or spend some time reading [what's included](#what-is-included-in-the-project) to get familiar with the project.
 
 ## Tasks
 
-The test is divided in three mandatory tasks and one optional. The whole test is designed to be resolved in around three hours (not including the any tasks).
+The test is divided in three mandatory tasks and one optional. The whole test is designed to be resolved in around three hours (not including the optional tasks).
 
 - [ ] **1.** Technical work: filling the gaps in the auth flow. [Link](./docs/task-01.md)
 - [ ] **2.** Product feature request: download all matches. [Link](./docs/task-02.md)
