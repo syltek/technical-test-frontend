@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import useSWR from 'swr'
 import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import Button from '@mui/material/Button'
@@ -13,7 +14,8 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import Paper from '@mui/material/Paper'
-import { useApiQuery } from '@/lib/api'
+import { useApiFetcher } from '@/lib/api'
+import { Match } from '@/lib/api-types'
 
 export interface MatchesProps {
   onLogoutRequest?: () => void
@@ -23,7 +25,17 @@ export function Matches(props: MatchesProps) {
   const { onLogoutRequest, ...otherProps } = props
   const [page, setPage] = useState<number>(0)
   const [size, setSize] = useState<number>(10)
-  const query = useApiQuery('GET /v1/matches', { page, size }, { keepPreviousData: true, suspense: true })
+  const fetcher = useApiFetcher()
+  const query = useSWR<Match[], Error>(
+    [page, size],
+    async () => { 
+      const res = await fetcher('GET /v1/matches', { page, size })
+      return res.ok
+        ? Promise.resolve(res.data)
+        : Promise.reject(new Error(res.data.message))
+    },
+    { keepPreviousData: true, suspense: true },
+  )
   const matches = query.data ?? []
 
   return (

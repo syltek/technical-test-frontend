@@ -26,7 +26,7 @@ type ApiFetcherArg<E extends Endpoint> =
       : InferEndpointData<E> extends never
         ? /* yes params, no data */ InferEndpointParams<E>
         : /* yes params, yes data */ InferEndpointParams<E> & { data: InferEndpointData<E> }
-    : 'xd'
+    : unknown
 
 interface ApiFetcherOptions {
   /**

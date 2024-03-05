@@ -1,11 +1,12 @@
 interface Auth {
   /**
    * Currently logged-in user information or `null` if there is no logged-in user.
-   * 
+   *
    * This value might be `undefined` if we don't know yet if the user is logged
-   * in or not. This might happen at the beginning of the application life-cycle
-   * when we are checking if the token we have is valid.
-   * 
+   * in or not. This will happen at the beginning of the application life-cycle
+   * while we are checking if the provided token via {@link AuthInitializeConfig.tokens}
+   * is still valid.
+   *
    * Note: once this value transitions from `undefined` into any other value; it will
    * never go-back into being `undefined` again
    */
@@ -17,19 +18,23 @@ interface Auth {
 
   /**
    * Currently logged-in user token information or `null` if there isn't any.
-   * 
+   *
    * This value might be `undefined` if we don't know yet if the user is logged
-   * in or not. This might happen at the beginning of the application life-cycle
-   * when we are checking if the token we have is valid.
-   * 
+   * in or not. This will happen at the beginning of the application life-cycle
+   * while we are checking if the provided token via {@link AuthInitializeConfig.tokens}
+   * is still valid.
+   *
    * Note: once this value transitions from `undefined` into any other value; it will
    * never go-back into being `undefined` again
    */
   tokens: undefined | null | TokensData
 
   /**
-   * Attempts to log in with the provided information. If successful; this will also
-   * cause an update on the `currentUser` and `tokens` properties of the auth state.
+   * Attempts to log in with the provided credentials. Returns a promise that resolves
+   * if the credentials are valid and the user has been successfully authenticated.
+   * 
+   * When the promise resolves; it cause an update on {@link Auth.currentUser}
+   * and {@link Auth.tokens}.
    * 
    * Internally; this method will call the auth endpoint `POST /v3/auth/login` with
    * the provided email and password to retrieve and store {@link Auth.tokens}. If
@@ -43,8 +48,10 @@ interface Auth {
 
 
   /**
-   * Logs out the currently logged-in. If successful; this will also  cause an update
-   * on the `currentUser` and `tokens` properties of the auth state.
+   * Logs out the currently logged-in.
+   *
+   * When the promise resolves; it will cause an update on {@link Auth.currentUser}
+   * and {@link Auth.tokens}; setting them to `null`.
    * 
    * @throws {Error} if there is no user logged in
    */
@@ -54,22 +61,23 @@ interface Auth {
 interface AuthInitializeConfig {
   /**
    * Allows initializing the Auth state with a previously stored set of tokens. This allows
-   * persisting a user "session" so the next time the come around they don't need to re-enter
+   * persisting a user "session" so the next time they come around they don't need to re-enter
    * their credentials.
    */
   tokens?: TokensData | Promise<TokensData> | null | undefined
 
   /**
-   * Allows listening for auth state changes; allowing other parts of the application to store it
-   * so it can be later used for re-initializing the auth after a refresh via {@link AuthInitializeConfig.tokens}
+   * Allows listening for auth state changes; allowing other parts of the application to store it.
+   * so it can be later used for re-initializing the auth after a refresh via
+   * {@link AuthInitializeConfig.tokens}.
    * 
-   * The auth state (in this case the tokens) might change during runtime of the application:
+   * The token might change during runtime of the application on several scenarios:
    *
-   * - When the user logs in; this callback is invoked with the freshly created auth token information
-   * - When the user logs out; this callback is invoked with null
+   * - When the user logs in; this callback is invoked with a freshly created token-set
+   * - When the user logs out; this callback is invoked with `null`
    * - While the user is using the application the access token might expire; causing the
-   *   `AuthProvider` to automatically refresh the auth token information. That just-refreshed tokens
-   *   will be passed to this callback.
+   *   `AuthProvider` to automatically refresh its token-set set using the current
+   *   `refreshToken`. That just-refreshed token-set will be passed to this callback.
    */
   onAuthChange?: (tokens: TokensData | null) => void
 }
@@ -78,7 +86,7 @@ interface TokensData {
   /**
    * Token identifying the currently logged-in user; allowing them to do calls
    * to the API that require authorization.
-   * 
+   *
    * This token expires at the date specified by `accessExpiresAt`.
    */
   access: string
