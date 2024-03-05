@@ -6,7 +6,7 @@ interface Auth {
    * in or not. This might happen at the beginning of the application life-cycle
    * when we are checking if the token we have is valid.
    * 
-   * NB: once this value transitions from `undefined` into any other value; it will
+   * Note: once this value transitions from `undefined` into any other value; it will
    * never go-back into being `undefined` again
    */
   currentUser: undefined | null | {
@@ -22,7 +22,7 @@ interface Auth {
    * in or not. This might happen at the beginning of the application life-cycle
    * when we are checking if the token we have is valid.
    * 
-   * NB: once this value transitions from `undefined` into any other value; it will
+   * Note: once this value transitions from `undefined` into any other value; it will
    * never go-back into being `undefined` again
    */
   tokens: undefined | null | TokensData
