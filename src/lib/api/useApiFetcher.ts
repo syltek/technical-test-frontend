@@ -1,65 +1,13 @@
-import { useCallback, useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { ApiContext } from './ApiContext'
-import {
-  Endpoint,
-  KnownEndpoints,
-  EndpointResponse,
-  InferEndpointData,
-  InferEndpointParams,
-  InferEndpointResponse,
-} from './types'
-import { compilePath, mergeHeaders, parseEndpoint } from './utils'
-
-/**
- * Extracts the request params and request data for a given endpoint and combines
- * them in a single object.
- * 
- * Params (pathname or search) are passed as the root-level properties of the object
- * while request body is wrapped in a `data` property.
- */
-type ApiFetcherArg<E extends Endpoint> =
-  E extends KnownEndpoints
-    ? InferEndpointParams<E> extends never
-      ? InferEndpointData<E> extends never
-        ? /* no params, no data */ undefined | null | Record<string, never>
-        : /* no params, yes data */ { data: InferEndpointData<E> }
-      : InferEndpointData<E> extends never
-        ? /* yes params, no data */ InferEndpointParams<E>
-        : /* yes params, yes data */ InferEndpointParams<E> & { data: InferEndpointData<E> }
-    : unknown
-
-interface ApiFetcherOptions {
-  /**
-   * Allows specifying extra headers for a particular request.
-   */
-  headers?: HeadersInit
-}
-
-interface ApiFetcher {
-  <E extends KnownEndpoints>(
-    endpoint: E,
-    arg: ApiFetcherArg<E>,
-    options?: ApiFetcherOptions,
-  ): Promise<EndpointResponse<InferEndpointResponse<E>>>
-
-  /**
-   * Allows doing an unsafe, un-typed request to any non-typed endpoint.
-   */
-  (
-    endpoint: `[unsafe] ${Endpoint}`,
-    arg: Record<string, unknown>,
-    options?: ApiFetcherOptions,
-  ): Promise<EndpointResponse>
-}
+import { ApiFetcher, createApiFetcher } from './fetcher'
 
 /**
  * Returns a type-safe fetch function; allowing you to call the API while automatically
  * typing the response based on the endpoint being called.
  * 
- * The fetch configuration will include by default any parameters set via {@link ApiContext}.
- * 
- * See {@link EndpointMeta} for more information on what are the supported endpoints.
- * 
+ * See {@link createApiFetcher} for more information.
+ *
  * @example Doing a POST request
  * ```ts
  * const fetcher = useApiFetcher()
@@ -75,59 +23,35 @@ interface ApiFetcher {
  *   console.log(res.data.accessToken)
  * }
  * ```
+ *
+ * @example Usage with SWR
+ * ```ts
+ * type Arg = { page?: number, size?: number }
+ * const matches = useSWR({ page, size }, async (arg: Arg): Promise<Match[]> => { 
+ *   const res = await fetcher('GET /v1/matches', arg)
+ *
+ *   if (!res.ok) {
+ *     throw new Error(res.data.message)
+ *   }
+ *
+ *   const totalCount = res.headers.get('total')
+ *   const total = totalCount ? Number.parseInt(totalCount) : res.data.length
+ *   return { matches: res.data, total }
+ * })
+ * ```
  */
 function useApiFetcher(): ApiFetcher {
   const apiContext = useContext(ApiContext)
 
-  const fetcher: ApiFetcher = useCallback(async <E extends KnownEndpoints>(
-      endpoint: E,
-      arg: ApiFetcherArg<E>,
-      options?: ApiFetcherOptions,
-    ): Promise<EndpointResponse<InferEndpointResponse<E>>> => {
-      const [method, pathname] = parseEndpoint(endpoint)
-      const headers = mergeHeaders(apiContext.defaultHeaders, options?.headers)
-      const { data: body, ...params } = arg as Record<string, unknown>
-      const searchParams = new URLSearchParams(
-        Object.entries(params)
-          .map(([paramName, paramValue]) => [paramName, String(paramValue)])
-      )
-      const path = compilePath(pathname, searchParams)
-
-      const url = `${apiContext.baseURL}${path}`
-
-      if (body) {
-        headers.set('content-type', 'application/json')
-      }
-
-      const response = await fetch(url, {
-        method,
-        headers,
-        body: JSON.stringify(body),
-      })
-
-      // Yes, we know this is an unsafe cast.
-      const data = await response.json() as InferEndpointResponse<E>
-
-      const result: EndpointResponse<InferEndpointResponse<E>> = {
-        status: response.status,
-        ok: response.ok,
-        headers: response.headers,
-        /* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any --
-         * FIXME: We need this any casting because of the response/error discriminate typing;
-         * Let's find a way to better type this in the future if possible.
-         */
-        data: data as any,
-      }
-
-      return result
-  }, [apiContext])
+  const fetcher: ApiFetcher = useMemo((): ApiFetcher =>
+    createApiFetcher({
+      baseURL: apiContext.baseURL,
+      defaultHeaders: apiContext.defaultHeaders, 
+    }),
+    [apiContext],
+  )
 
   return fetcher
 }
 
-export {
-  useApiFetcher,
-  type ApiFetcher,
-  type ApiFetcherArg,
-  type ApiFetcherOptions,
-}
+export { useApiFetcher }

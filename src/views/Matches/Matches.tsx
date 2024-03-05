@@ -26,15 +26,14 @@ export function Matches(props: MatchesProps) {
   const [page, setPage] = useState<number>(0)
   const [size, setSize] = useState<number>(10)
   const fetcher = useApiFetcher()
-  const query = useSWR<{ matches: Match[], total: number }, Error>(
-    [page, size],
-    async () => { 
+  const query = useSWR(
+    { page, size },
+    async ({ page, size }: { page: number, size: number}): Promise<{ matches: Match[], total: number }> => {
       const res = await fetcher('GET /v1/matches', { page, size })
 
       if (!res.ok) {
         throw new Error(res.data.message)
       }
-
 
       const totalCount = res.headers.get('total')
       const total = totalCount ? Number.parseInt(totalCount) : res.data.length
@@ -42,8 +41,8 @@ export function Matches(props: MatchesProps) {
     },
     { keepPreviousData: true, suspense: true },
   )
-  const matches: Match[] = query.data?.matches ?? []
-  const total: number = query.data?.total ?? 0
+  const matches: Match[] = query.data.matches
+  const total: number = query.data.total
 
   return (
     <Stack {...otherProps}>
