@@ -1,20 +1,28 @@
 import { ReactNode } from 'react'
 import { AuthInitializeConfig } from './types'
 
-interface AuthProviderProps extends AuthInitializeConfig {  
+interface AuthProviderProps extends AuthInitializeConfig {
   children?: ReactNode
+
+  /**
+   * @see {@link AuthInitializeConfig.initialTokens}
+   */
+  initialTokens?: AuthInitializeConfig['initialTokens']
+
+  /**
+   * @see {@link AuthInitializeConfig.onAuthChange}
+   */
+  onAuthChange?: AuthInitializeConfig['onAuthChange']
 }
 
 /**
- * Allows initializing the auth state and exposing it to the component-tree below.
+ * Initializes the auth state and exposes it to the component-tree below.
+ *
+ * This allow separate calls of `useAuth` to communicate among each-other and share
+ * a single source of truth.
  */
 function AuthProvider(props: AuthProviderProps): JSX.Element {
-  const { tokens, onAuthChange, children } = props
-
-  // You can remove these 2 logs; these are only here so the linter does not
-  // complain about them being unused
-  console.debug('>>', 'AuthProvider', 'tokens', tokens)
-  console.debug('>>', 'AuthProvider', 'onAuthChange', onAuthChange)
+  const { initialTokens, onAuthChange, children } = props
 
   return (
     <>{children}</>

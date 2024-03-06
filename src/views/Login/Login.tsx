@@ -29,7 +29,6 @@ export function Login(props: LoginProps) {
 
     auth.login({ email, password })
       .catch(err => {
-        console.error(err)
         setError(
           err instanceof Error
             ? err.message

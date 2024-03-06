@@ -51,7 +51,7 @@ Every task has its own **Dos and Don'ts** section; but there are some things tha
 
 ### Project structure
 
-- `src/lib/`: Our _internal packages_.
+- `src/lib/`: Our _internal packages_. Each of this directories has an `index` which is considered its **entry-point**; no other part of the codebase should import from any given lib from a file other than the `index`.
 - `src/lib/msw`: This a minimal mock server built using [msw](https://mswjs.io/docs). It allows us to simulate a realistic interaction with an API server without having to deploy anything extra. The directory includes a [README](./src/lib/msw/README.md) where you can find every endpoint we have available.
 - `src/lib/api`: The data-fetching layer for the project. If you need to _talk_ with the API this is what you should be using. It has a lot of type-related goodies to make your developer experience better.
 - `src/lib/api-types`: Some shared type definitions of entities returned by the API. No actual javascript here; just type definitions.
@@ -62,6 +62,7 @@ Every task has its own **Dos and Don'ts** section; but there are some things tha
 
 - **[material-ui](https://mui.com/material-ui/getting-started/)**: Component library. For simplicity and speed; always try using the available components instead of writing your own implementations.
 - **[swr](https://swr.vercel.app/)**: Data-fetching library react-aware.
+- **[@testing-library/react](https://testing-library.com/docs/react-testing-library/intro/)**: Test framework for UI testing of React components.
 - **[vitest](https://vitest.dev/api/)**: Test framework; including assertions and mocking.
 - **[msw](https://mswjs.io/docs)**: A mock-server implementation that works on tests and on dev-mode; allowing us to have the same scenario for tests and development!
 - **[react-router v5](https://v5.reactrouter.com/web/guides/quick-start)**

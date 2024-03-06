@@ -122,9 +122,7 @@ test('shows an alert with any error returned by the API', async () => {
   await userEvent.click(
     screen.getByRole('button', { name: 'Log in' })
   )
-
-  await waitFor(() => {
-    const error = screen.getByRole('alert')
-    expect(error).toHaveTextContent(loginError)
-  })
+  
+  const alert = await screen.findByRole('alert')
+  expect(alert).toHaveTextContent(loginError)
 })

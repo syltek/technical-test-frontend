@@ -1,3 +1,4 @@
+import localforage from 'localforage'
 import { render, screen } from '@testing-library/react'
 import { server } from '@/lib/msw/node'
 import userEvent from '@testing-library/user-event'
@@ -17,10 +18,14 @@ describe('anonymous user', () => {
 
 
 describe('authenticated user', () => {
-  beforeEach(() => {
-    localStorage.setItem('my-app:auth', JSON.stringify({
+  beforeEach(async () => {
+    const storage = localforage.createInstance({ name: 'my-app-auth' })
+    await storage.setItem('tokens', {
       access: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDkyOTA0NzIsImV4cCI6NDg2Mjg5MDQ3MiwianRpIjoiYzFjMGVjNTMtMzc1Ny00Y2FjLTk5YTMtZjk3NDAwMTA5ZTFkIiwic3ViIjoiYzBlZDM2YzAtNmM1OS00OGQ0LWExNjgtYjYwNzZjZWM1MmEwIiwidHlwZSI6ImFjY2VzcyJ9.InRoaXMtaXMtbm90LWEtcmVhbC1zaWduYXR1cmUi',
-    }))
+      accessExpiresAt: '2124-01-01T00:00Z',
+      refresh: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDkyOTA0NzIsImV4cCI6NDg2Mjg5MDQ3MiwianRpIjoiYzFjMGVjNTMtMzc1Ny00Y2FjLTk5YTMtZjk3NDAwMTA5ZTFkIiwic3ViIjoiYzBlZDM2YzAtNmM1OS00OGQ0LWExNjgtYjYwNzZjZWM1MmEwIiwidHlwZSI6InJlZnJlc2gifQ.a97Pqc9uo3YjPtAfJu1CbYh_CyU2IH-Ew6eaR7yST6g',
+      refreshExpiresAt: '2124-01-01T00:00Z',
+    })
   })
 
   test('renders a matches table', async () => {  

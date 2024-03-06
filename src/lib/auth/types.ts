@@ -4,7 +4,7 @@ interface Auth {
    *
    * This value might be `undefined` if we don't know yet if the user is logged
    * in or not. This will happen at the beginning of the application life-cycle
-   * while we are checking if the provided token via {@link AuthInitializeConfig.tokens}
+   * while we are checking if the provided token via {@link AuthInitializeConfig.initialTokens}
    * is still valid.
    *
    * Note: once this value transitions from `undefined` into any other value; it will
@@ -21,7 +21,7 @@ interface Auth {
    *
    * This value might be `undefined` if we don't know yet if the user is logged
    * in or not. This will happen at the beginning of the application life-cycle
-   * while we are checking if the provided token via {@link AuthInitializeConfig.tokens}
+   * while we are checking if the provided token via {@link AuthInitializeConfig.initialTokens}
    * is still valid.
    *
    * Note: once this value transitions from `undefined` into any other value; it will
@@ -63,13 +63,16 @@ interface AuthInitializeConfig {
    * Allows initializing the Auth state with a previously stored set of tokens. This allows
    * persisting a user "session" so the next time they come around they don't need to re-enter
    * their credentials.
+   * 
+   * If `null` or `undefined` is provided here (or a Promise that resolves into any of those);
+   * the auth state will be initialized as anonymous (meaning user is not logged in yet). 
    */
-  tokens?: TokensData | Promise<TokensData> | null | undefined
+  initialTokens?: undefined | null | TokensData | Promise<TokensData | undefined | null>
 
   /**
    * Allows listening for auth state changes; allowing other parts of the application to store it.
    * so it can be later used for re-initializing the auth after a refresh via
-   * {@link AuthInitializeConfig.tokens}.
+   * {@link AuthInitializeConfig.initialTokens}.
    * 
    * The token might change during runtime of the application on several scenarios:
    *

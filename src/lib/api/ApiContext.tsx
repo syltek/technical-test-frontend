@@ -24,7 +24,7 @@ interface ApiContextProviderProps extends Partial<ApiContextValue> {
 }
 
 /**
- * Allows configuring the behavior of the API fetcher.
+ * Allows configuring the default behavior of the API fetcher.
  */
 function ApiContextProvider(props: ApiContextProviderProps) {
   const { defaultHeaders, baseURL, ...otherProps } = props
