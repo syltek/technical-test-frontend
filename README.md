@@ -7,9 +7,7 @@
 <details>
 <summary>See how</summary>
 
-![Use this template](./docs/assets/screenshot-use-this-template.png)
-
-![Create repo from template](./docs/assets/screenshot-repository-template.png)
+![](./docs/assets/create-repo-from-template.gif)
 
 </details>
 
