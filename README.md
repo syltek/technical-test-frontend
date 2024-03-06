@@ -2,7 +2,7 @@
 
 ## Getting started
 
-[Create a new repository](https://github.com/new?template_name=technical-test-frontend&template_owner=syltek&visibility=private) using this one as a template. Make sure you enable the checkbox for **☑️ Include all branches** and set the repository visibility to **🔒 Private**.
+[Create a new repository](https://github.com/new?template_name=technical-test-frontend&template_owner=syltek&visibility=private) using this one as a template. Make sure set the repository visibility to **🔒 Private**.
 
 <details>
 <summary>See how</summary>
