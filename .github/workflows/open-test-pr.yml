@@ -40,4 +40,5 @@ jobs:
             --head bug/matches-times \
             --title 'Show local times for match dates' \
             --body-file .github/demo-pr/body.md \
-            --label bug
+            --label bug \
+            --reviewer ${{github.actor}}
