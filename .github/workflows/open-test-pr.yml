@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   open-demo-pr:
@@ -28,7 +29,7 @@ jobs:
           git commit -m 'fix: display correct times in the matches table'
       -
         name: push changes
-        run: git push origin bug/matches-times
+        run: git push -f origin bug/matches-times
       -
         name: open pull request
         env:
