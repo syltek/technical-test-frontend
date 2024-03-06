@@ -33,7 +33,7 @@ jobs:
       -
         name: open pull request
         env:
-          GH_TOKEN: GITHUB_TOKEN
+          GH_TOKEN: ${{github.token}}
         run: |
           gh pr create \
             --base main \
