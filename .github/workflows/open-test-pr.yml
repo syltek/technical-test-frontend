@@ -22,6 +22,7 @@ jobs:
       -
         name: commit changes
         run: |
+          git checkout -b bug/matches-times
           git apply .github/demo-pr/changes.patch
           git add .
           git commit -m 'fix: display correct times in the matches table'
