@@ -20,10 +20,4 @@ Now we can run the **Open Test Pull Request** workflow by navigating to Actions 
 
 This will create a branch, commit the changes of your team-mate, push the branch into your repo, and open a the Pull Request you need to review.
 
-<details>
-
-<summary>See a video of the process</summary>
-
-./assets/open-demo-pr.mov
-
-</details>
+![](./assets/open-demo-pr.gif)
