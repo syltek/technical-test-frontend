@@ -10,11 +10,7 @@ interface Auth {
    * Note: once this value transitions from `undefined` into any other value; it will
    * never go-back into being `undefined` again
    */
-  currentUser: undefined | null | {
-    userId: string
-    name: string
-    email: string
-  }
+  currentUser: undefined | null | UserData
 
   /**
    * Currently logged-in user token information or `null` if there isn't any.
@@ -44,7 +40,7 @@ interface Auth {
    * @throws {Error} if there is a user already logged in
    * @throws {Error} if credentials are wrong
    */
-  login(data: { email: string, password: string }): Promise<void>
+  login(credentials: { email: string, password: string }): Promise<void>
 
 
   /**
@@ -83,6 +79,17 @@ interface AuthInitializeConfig {
    *   `refreshToken`. That just-refreshed token-set will be passed to this callback.
    */
   onAuthChange?: (tokens: TokensData | null) => void
+}
+
+interface UserData {
+  /** User Id of the currently logged-in */
+  userId: string
+
+  /** Display name for the currently logged in user. */
+  name: string
+
+  /** Email for the currently logged in user. */
+  email: string
 }
 
 interface TokensData {

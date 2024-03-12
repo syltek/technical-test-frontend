@@ -10,7 +10,8 @@ function useAuth(): Auth {
   return {
     tokens: null,
     currentUser: null,
-    login() {
+    login(credentials) {
+      const { email, password } = credentials
       return Promise.reject(new Error('Not yet implemented'))
     },
     logout() {
