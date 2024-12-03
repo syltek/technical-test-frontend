@@ -6,6 +6,7 @@
 Our team recently received a bug request regarding the dates shown in the matches table. Looks like the times are not being displayed correctly for some Clubs in the US. A junior team-mate already did the analysis, found the root cause of the problem, and prepared a fix. You need to review it before it can be merged into the release pipeline.
 
 **Dos and Don'ts**
+
 - You **must** leave a review stating if you would ✅ **Approve**; 💬 **Comment** ;or ❌ **Request changes**.
 - You **should** leave a review in the code's PR itself if you find it necessary.
 - You **shouldn't** make changes in code itself.
