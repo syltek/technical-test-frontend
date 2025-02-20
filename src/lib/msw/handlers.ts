@@ -208,7 +208,7 @@ export const handlers: RequestHandler[] = [
 
     const allMatches = mockData.findMany('match', () => true)
     const matches = allMatches.slice(size * page, size * page + size)
-    const headers = new Headers({ Total: `${allMatches.length}` })
+    const headers = new Headers({ Total: String(allMatches.length) })
 
     return HttpResponse.json<ResponseType>(matches, { status: 200, headers })
   }),

@@ -29,7 +29,7 @@ export function Login(props: LoginProps) {
 
     auth
       .login({ email, password })
-      .catch(err => {
+      .catch((err: unknown) => {
         setError(err instanceof Error ? err.message : String(err))
       })
       .finally(() => {

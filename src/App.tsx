@@ -51,7 +51,7 @@ function AppRouter() {
           {auth.currentUser ? (
             <Matches
               onLogoutRequest={() => {
-                auth.logout().catch(error => {
+                auth.logout().catch((error: unknown) => {
                   console.error('error while logging out', error)
                 })
               }}
@@ -152,7 +152,7 @@ function AppAuthProvider(props: { children: ReactNode }) {
   const initialTokens = useMemo<AuthProviderProps['initialTokens']>(() => authStore.get(), [authStore])
   const handleAuthRefresh = useCallback<NonNullable<AuthProviderProps['onAuthChange']>>(
     tokens => {
-      authStore.save(tokens).catch(error => {
+      authStore.save(tokens).catch((error: unknown) => {
         console.error('Failure persisting the auth refresh', error)
       })
     },
