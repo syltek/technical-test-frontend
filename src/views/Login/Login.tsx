@@ -21,36 +21,34 @@ export function Login(props: LoginProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (ev) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = ev => {
     ev.preventDefault()
 
     setError(null)
     setIsSubmitting(true)
 
-    auth.login({ email, password })
-      .catch(err => {
-        setError(
-          err instanceof Error
-            ? err.message
-            : String(err)
-        )
+    auth
+      .login({ email, password })
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : String(err))
       })
-      .finally(() => { setIsSubmitting(false) })
+      .finally(() => {
+        setIsSubmitting(false)
+      })
   }
 
   return (
     <div {...otherProps}>
-      {error && <Alert
-        severity="error"
-        onClose={() => { setError(null) }}
-      >
-        {error}
-      </Alert>
-      }
-      <form
-        aria-label="Log in"
-        aria-busy={isSubmitting ? true : undefined}
-        onSubmit={handleSubmit}>
+      {error && (
+        <Alert
+          severity="error"
+          onClose={() => {
+            setError(null)
+          }}>
+          {error}
+        </Alert>
+      )}
+      <form aria-label="Log in" aria-busy={isSubmitting ? true : undefined} onSubmit={handleSubmit}>
         <TextField
           size="small"
           disabled={isSubmitting}
@@ -58,7 +56,9 @@ export function Login(props: LoginProps) {
           type="email"
           name="email"
           value={email}
-          onChange={ev => { setEmail(ev.target.value) }}
+          onChange={ev => {
+            setEmail(ev.target.value)
+          }}
         />
         <TextField
           size="small"
@@ -67,13 +67,11 @@ export function Login(props: LoginProps) {
           type="password"
           name="password"
           value={password}
-          onChange={ev => { setPassword(ev.target.value) }}
+          onChange={ev => {
+            setPassword(ev.target.value)
+          }}
         />
-        {
-          isSubmitting
-            ? <CircularProgress size={24} />
-            : <Button type="submit">Log in</Button>
-        }
+        {isSubmitting ? <CircularProgress size={24} /> : <Button type="submit">Log in</Button>}
       </form>
     </div>
   )

@@ -19,9 +19,11 @@ npm run dev
 ```
 
 You can also run the project tests using this command:
+
 ```
 npm test
 ```
+
 > [!important]
 > Some tests will fail if you run them right after cloning the repo; but they **should** be green after you are done with [Task 01](./docs//task-01.md)
 

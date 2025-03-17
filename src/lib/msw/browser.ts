@@ -7,8 +7,8 @@
 import { delay, http } from 'msw'
 import { setupWorker } from 'msw/browser'
 import { handlers } from './handlers'
- 
+
 export const worker = setupWorker(
   http.all('*', () => delay('real')),
-  ...handlers
+  ...handlers,
 )

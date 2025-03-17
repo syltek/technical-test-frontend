@@ -23,7 +23,7 @@ describe('compilePath', () => {
     const pathname = '/v1/matches/{matchId}'
     const params = new URLSearchParams()
     expect(() => compilePath(pathname, params)).toThrowError(
-      `Missing param matchId while compiling ${pathname}`
+      `Missing param matchId while compiling ${pathname}`,
     )
   })
 })
@@ -32,18 +32,15 @@ describe('mergeHeaders', () => {
   /**
    * Transform a {@link Headers} instance into a `expect(...)` friendly value
    */
-  const serializeHeaders = (headers: Headers): [string,string][] =>
-    Array.from(headers.entries())
+  const serializeHeaders = (headers: Headers): [string, string][] => Array.from(headers.entries())
 
   test('merges different header-compatible values into a single Headers', () => {
     expect(
       serializeHeaders(
-        mergeHeaders(
-          new Headers({ header01: 'value01' }),
-          [['header02', 'value02']],
-          { header03: 'value03' },
-        )
-      )
+        mergeHeaders(new Headers({ header01: 'value01' }), [['header02', 'value02']], {
+          header03: 'value03',
+        }),
+      ),
     ).toEqual([
       ['header01', 'value01'],
       ['header02', 'value02'],
@@ -52,14 +49,7 @@ describe('mergeHeaders', () => {
   })
 
   test('colliding header values are solved to the right-most value', () => {
-    expect(
-      serializeHeaders(
-        mergeHeaders(
-          [['header02', 'value02_A']],
-          [['header02', 'value02_B']],
-        )
-      )
-    ).toEqual([
+    expect(serializeHeaders(mergeHeaders([['header02', 'value02_A']], [['header02', 'value02_B']]))).toEqual([
       ['header02', 'value02_B'],
     ])
   })
@@ -75,21 +65,18 @@ describe('parseEndpoint', () => {
   })
 
   test('throws for a non-endpoint string', () => {
-    expect(() => parseEndpoint('')).toThrowError(
-      'Not a valid endpoint string'
-    )
+    expect(() => parseEndpoint('')).toThrowError('Not a valid endpoint string')
   })
 
   test('throws for a non-valid method string', () => {
     expect(() => parseEndpoint('GOT /v1/matches')).toThrowError(
-      'Unknown method (GOT) for endpoint: GOT /v1/matches'
+      'Unknown method (GOT) for endpoint: GOT /v1/matches',
     )
   })
 
   test('throws for a pathname with no leading /', () => {
     expect(() => parseEndpoint('GET v1/matches')).toThrowError(
-      'Missing leading / for pathname of endpoint: GET v1/matches'
+      'Missing leading / for pathname of endpoint: GET v1/matches',
     )
   })
 })
-
