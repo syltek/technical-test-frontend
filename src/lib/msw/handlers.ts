@@ -150,6 +150,10 @@ export const handlers: RequestHandler[] = [
   }),
 
   http.all('/api/*', async ({ request }) => {
+    if (import.meta.env.VITE_ALLOW_ANONYMOUS_ACCESS === 'true') {
+      return
+    }
+
     const auth = request.headers.get('authorization')
 
     if (!auth) {

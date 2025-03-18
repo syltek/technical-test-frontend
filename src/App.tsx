@@ -36,11 +36,20 @@ function AppRouter() {
     return <div>Loading authorization...</div>
   }
 
+  // Note:
+  // You can toggle this boolean for task02 to easily get past the authentication.
+  // This might prove useful if you want to start with task02 without completing task01;
+  // or if you are having issues with task01 and want to progress with something else.
+  // DO NOT USE this as part of your task01
+  const allowAnonymousAccess = import.meta.env.VITE_ALLOW_ANONYMOUS_ACCESS === 'true'
+
+  const canAccessProtectedRoutes = Boolean(auth.currentUser || allowAnonymousAccess)
+
   return (
     <Router>
       <Switch>
         <Route path="/login">
-          {auth.currentUser ? (
+          {canAccessProtectedRoutes ? (
             <Redirect to="/matches" />
           ) : (
             <Login initialValues={{ email: 'alice@playtomic.io' }} />
@@ -48,7 +57,7 @@ function AppRouter() {
         </Route>
 
         <Route path="/matches">
-          {auth.currentUser ? (
+          {canAccessProtectedRoutes ? (
             <Matches
               onLogoutRequest={() => {
                 auth.logout().catch((error: unknown) => {
@@ -61,7 +70,7 @@ function AppRouter() {
           )}
         </Route>
 
-        <Route>{auth.currentUser ? <Redirect to="/matches" /> : <Redirect to="/login" />}</Route>
+        <Route>{canAccessProtectedRoutes ? <Redirect to="/matches" /> : <Redirect to="/login" />}</Route>
       </Switch>
     </Router>
   )
