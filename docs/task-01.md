@@ -11,9 +11,9 @@ Thankfully we have a **contract** for its [public API](../src/lib/auth/index.ts)
 
 - Remember to double check the [common dos and don'ts](../README.md#dos-and-donts)
 - You **must** implement the internals of `AuthProvider` and `useAuth` according to the specification on their respective JSDoc
+- You **must** make sure the tests in the project pass after you are done with this task
 - You **can** create, change or remove any files inside `@/lib/auth`
 - You **can** add tests to any code you add inside `@/lib/auth`; but it is not mandatory
-- You **should** make sure the tests in the project pass after you are done with this task
 - You **shouldn't** make changes to the `@/lib/auth` [public facing API](../src/lib/auth/index.ts)
 - You **shouldn't** make changes outside of `@/lib/auth`
 - You **shouldn't** implement the refresh flow yet; there is an [_optional_](./task-04.md) task later if you have the time
