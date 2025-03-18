@@ -9,8 +9,9 @@ While they would love for us to implement it; they told us it would suffice for 
 
 We believe there is value in that and after some conversation we agreed on implementing a quick solution to validate if there is actual interest in this by our customers.
 
-**Dos and Do not's**
+**Dos and Don'ts**
 
+- Remember the check the [common dos and don'ts](../README.md#dos-and-donts)
 - You **must** implement something that fullfil the club's needs
 - You **must** implement a solution that is **client-only**; in other words: you **shouldn't** make changes in `@/lib/msw`
 - You **can** add tests to any code you add; but it is not mandatory

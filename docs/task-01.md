@@ -7,8 +7,9 @@ Oops! Looks like we forgot to implement the auth flow. That is bad news because 
 
 Thankfully we have a **contract** for its [public API](../src/lib/auth/index.ts). The documentation does mention something regarding _refreshing_ tokens; but for now we can ignore it and just focus on the **access token**.
 
-## Dos and Do not's
+## Dos and Don'ts
 
+- Remember to double check the [common dos and don'ts](../README.md#dos-and-donts)
 - You **must** implement the internals of `AuthProvider` and `useAuth` according to the specification on their respective JSDoc
 - You **can** create, change or remove any files inside `@/lib/auth`
 - You **can** add tests to any code you add inside `@/lib/auth`; but it is not mandatory
