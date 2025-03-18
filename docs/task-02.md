@@ -14,7 +14,7 @@ We believe there is value in that and after some conversation we agreed on imple
 - Remember the check the [common dos and don'ts](../README.md#dos-and-donts)
 - You **must** implement something that fullfil the club's needs
 - You **must** implement a solution that is **client-only**; in other words: you **shouldn't** make changes in `@/lib/msw`
+- You **should** strike a balance between UX and value added to the user. **Make sure** you document your decisions in this regard in the associated PR.
 - You **can** add tests to any code you add; but it is not mandatory
-- You **can** make it look beautiful; but it is not the focus of the task
 - You **can** use any component in our [component library](https://mui.com/material-ui/getting-started/)
 - You **should** use `@/lib/api` for your data-fetching needs
