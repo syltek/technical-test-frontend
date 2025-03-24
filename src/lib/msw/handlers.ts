@@ -202,6 +202,12 @@ export const handlers: RequestHandler[] = [
     const size = Number.parseInt(url.searchParams.get('size') ?? '10')
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
 
+    if (size < 0) {
+      return HttpResponse.json<ResponseType>({ message: 'wrong size value' }, { status: 400 })
+    }
+    if (page < 0) {
+      return HttpResponse.json<ResponseType>({ message: 'wrong page value' }, { status: 400 })
+    }
     if (size > 10) {
       return HttpResponse.json<ResponseType>({ message: "size can't be larger than 10" }, { status: 400 })
     }
