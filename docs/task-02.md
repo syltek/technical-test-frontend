@@ -9,6 +9,8 @@ While they would love for us to implement it; they told us it would suffice for 
 
 We believe there is value in that and after some conversation we agreed on implementing a quick solution to validate if there is actual interest in this by our customers.
 
+If you decided to start with this task before having [task 01](./task-01.md) fully working; you can disable the app's login requirement by setting `VITE_ALLOW_ANONYMOUS_ACCESS=true` in your `.env` file.
+
 **Dos and Do not's**
 
 - You **must** implement something that fullfil the club's needs
