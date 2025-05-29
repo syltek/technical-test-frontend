@@ -42,8 +42,10 @@ The test is divided in three mandatory tasks and one optional. The whole test is
 
 Every task has its own **Dos and Don'ts** section; but there are some things that are shared across all the tasks:
 
+- You **must** create a separate branch for each individual task.
+- You **must** open a PR **within your repo** for each individual task. The PR code **must** include only the changes related with the task at hand.
+- You **should** document any relevant decisions taken while solving the challenge (e.g: shortcuts taken in favor of speed of delivery, ideas of future iterations if you had plenty of time…). You **can** write in the PR description, as comments in a self PR review, or as comments within the code.
 - You **should** commit **frequently** (even more than once per task) using **meaningful commit messages**.
-- You **should** document some of the decisions you take while solving the challenge by writing them as a section on this README or as descriptions in the commit messages.
 - You **should** consider using the available tooling before including an extra library or implementing your own.
 - You **should** be consistent with your code-style.
 
